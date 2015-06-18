@@ -1,6 +1,7 @@
 <?php
     require_once("libreria.php");
-    
+    echo "probar";
+
 ?>
 <!DOCTYPE html>
 <html>
