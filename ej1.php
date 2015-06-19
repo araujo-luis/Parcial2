@@ -1,4 +1,5 @@
 <?php
+//comentario
 $txtNombre = "";
 if(isset($_POST["btnProcesar"] )){
   $txtNombre = $_POST["txtNombre"];
@@ -18,7 +19,7 @@ if(isset($_POST["btnProcesar"] )){
     <input type="text" name="txtNombre" id="txtNombre" value="<?php echo $txtNombre ?>">
     <br>
     <input type="submit" name="btnProcesar" id="btnProcesar" value="Procesar">
-    
+
     </form>
 
   </body>
