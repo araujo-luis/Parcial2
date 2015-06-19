@@ -1,0 +1,9 @@
+git clone https://github.com/l222p/Parcial2.git
+
+entrar a la carpeta del respositorio	
+git config user.email "luis_Araujocaballero@hotmail.com"
+
+modifico lo que tengo que modificar o crear ( hacer un git add archivo.php)
+git commit -m "mensaje"
+git push origin master
+git push *
