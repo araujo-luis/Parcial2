@@ -1,4 +1,5 @@
 <?php
+//comentario
     require_once("libreria.php");
     /*
     workwith \ trabajar con
