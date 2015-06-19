@@ -1,8 +1,7 @@
 <?php
-//comentatio
     $host = "127.0.0.1";
     $user = "root";
-    $pswd = "";
+    $pswd = "studentpwd";
     $db = "nw201502";
 
     $conn = new mysqli($host,
@@ -14,16 +13,58 @@
         die($conn->error);
     }
 
-    function obtenerProductos(){
+    function obtenerProductos($filtroDesc, $filtroEstado){
         global $conn;
+        //cuando llega algo raro,
+        // '; drop database();
+        //el espace la conviert esto asi
+        // '\; drop database()\(\);
+
+        $filtroDesc = $conn->real_escape_string($filtroDesc)."%";
+        $filtroEstado = $conn->real_escape_string($filtroEstado);
+
         $Productos = array();
-        $cursorProductos = $conn->query("select * from productos;");
+        $cadena = "select * from productos where prddsc like '%s' and prdest = '%s';";
+
+        //es cuestion de seguridad para evtar las injeccion SQL
+        //como en C en los porcentaje S es
+
+        $cadena= sprintf($cadena, $filtroDesc,$filtroEstado);
+        $cursorProductos = $conn->query($cadena);
+
         if($cursorProductos){
             while($producto = $cursorProductos->fetch_assoc()){
                 $Productos[] = $producto;
             }
         }
         return $Productos;
+    }
+
+    function obtenerProducto($codigo){
+        global $conn;
+        //cuando llega algo raro,
+        // '; drop database();
+        //el espace la conviert esto asi
+        // '\; drop database()\(\);
+
+
+
+        $Producto = array();
+        $cadena = "select * from productos where prdcod =%s";
+
+        //es cuestion de seguridad para evtar las injeccion SQL
+        //como en C en los porcentaje S es
+
+        $cadena= sprintf($cadena, $codigo);
+        $cursorProducto = $conn->query($cadena);
+
+        if($cursorProducto){
+            while($producto = $cursorProducto->fetch_assoc()){
+                return  $producto;
+                break;
+            }
+        }
+        return $Producto;
     }
 
     function obtenerProductosFind($nombre, $estado){
