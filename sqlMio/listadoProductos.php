@@ -57,6 +57,7 @@
       <input type="submit" name="btnFiltrar" value="Filtrar">
     </form>
 
+    <a href="detalleProducto.php?mode=INS">Ingresar nuevo producto</a>
     <h1>Listado de Productos</h1>
 
     <table>
@@ -101,8 +102,8 @@
 
           echo '<td>';
             echo '<a href="detalleProducto.php?mode=DSP&codigo='. $value["prdcod"]. '">Ver | </a>';
-            echo '<a href="detalleProducto.php?mode=DSP&codigo='. $value["prdcod"]. '">Actualizar | </a>';
-            echo '<a href="detalleProducto.php?mode=DSP&codigo='. $value["prdcod"]. '">Elimiar | </a>';
+            echo '<a href="detalleProducto.php?mode=UPD&codigo='. $value["prdcod"]. '">Actualizar | </a>';
+            echo '<a href="detalleProducto.php?mode=DEL&codigo='. $value["prdcod"]. '">Eliminar | </a>';
           echo '</td>';
         echo '</tr>';
       }
