@@ -1,7 +1,7 @@
 <?php
     $host = "127.0.0.1";
     $user = "root";
-    $pswd = "studentpwd";
+    $pswd = "";
     $db = "nw201502";
 
     $conn = new mysqli($host,

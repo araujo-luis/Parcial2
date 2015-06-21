@@ -1,113 +1,121 @@
 <?php
-  session_start();
-  require_once("libreria.php");
+    session_start();
+    require_once("libreria.php");
 
-  $lst_prddsc_f="";
-  $lst_prdest_f="ACT";
+    $lst_prddsc_f = "";
+    $lst_prdest_f = "ACT";
 
-  if(isset($_SESSION["lst_prddsc_f"])){
-    $lst_prddsc_f = $_SESSION["lst_prddsc_f"];
-    $lst_prdest_f = $_SESSION["lst_prdest_f"];
-  }
+    if(isset($_SESSION["lst_prddsc_f"])){
+      $lst_prddsc_f = $_SESSION["lst_prddsc_f"];
+      $lst_prdest_f = $_SESSION["lst_prdest_f"];
+    }
 
-  if(isset($_POST["btnFiltrar"])){
-    $lst_prddsc_f = $_POST["txtPrdDsc"];
-    $lst_prdest_f = $_POST["cmbPrdEst"];
+    /*
+    workwith \ trabajar con
 
-    $_SESSION["lst_prdest_f"] = $lst_prdest_f;
-    $_SESSION["lst_prddsc_f"] = $lst_prddsc_f;
+    listado con todos los registros
+    opcion : Agregar, Modificar,
+             Ver , Eliminar
+    filtros: Filtros del Listado
 
-  }
+    detalle del Registro
 
-  $Productos = obtenerProductos($lst_prddsc_f,$lst_prdest_f);
+    listadoProductos.php
+    detalleProducto.php
 
- ?>
+    */
+
+    $Productos = obtenerProductos($lst_prddsc_f,$lst_prdest_f);
+
+    if(isset($_POST["btnFiltrar"])){
+
+      $lst_prddsc_f = $_POST["txtPrdDsc"];
+      $lst_prdest_f = $_POST["cmbPrdEst"];
+
+      $_SESSION["lst_prddsc_f"] = $lst_prddsc_f;
+      $_SESSION["lst_prdest_f"] = $lst_prdest_f;
+
+
+
+    }
+
+
+?>
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>Listado de Productos</title>
+    <meta charset="utf-8"/>
+    <title>Listado de Producto</title>
   </head>
   <body>
-    <h1>Filtrado</h1>
-
-    <form action=" <?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-      <label for="txtPrdDsc">Filtro de Busqueda</label>
-      <input type="text" name="txtPrdDsc" id="txtPrdDsc" placeholder="Busqueda" value="<?php echo $lst_prddsc_f;?>">
-      <BR>
-      <select name="cmbPrdEst">
-        <option value="ACT"
-        <?php ($lst_prdest_f=="ACT")?"selects=selected":""; ?>
-        >Activo
-        </option>
-
-        <option value="INA"
-        <?php ($lst_prdest_f=="INA")?"selects=selected":""; ?>
-        >Inactivo</option>
-
-        <option value="RTR"
-        <?php ($lst_prdest_f=="RTR")?"selects=selected":""; ?>
-        >Retirado</option>
-
-        <option value="PLN"
-        <?php ($lst_prdest_f=="PLN")?"selects=selected":""; ?>
-        >Stand By</option>
-      </select>
-<BR>
-      <input type="submit" name="btnFiltrar" value="Filtrar">
-    </form>
-
-    <h1>Listado de Productos</h1>
-
-    <table>
-      <tr>
-        <th>Codigo</th>
-        <th>Descripcion</th>
-        <th>Categoria</th>
-        <th>Precio</th>
-        <th>Stock</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-       </tr>
-      <?php
-      foreach ($Productos as $value) {
-
-
-        echo '<tr>';
-
-          echo '<td>';
-            echo $value["prdcod"];
-          echo '</td>';
-
-          echo '<td>';
-            echo $value["prddsc"];
-          echo '</td>';
-
-          echo '<td>';
-            echo $value["ctgcod"];
-          echo '</td>';
-
-          echo '<td>';
-            echo $value["prdprc"];
-          echo '</td>';
-
-          echo '<td>';
-            echo $value["prdstk"];
-          echo '</td>';
-
-          echo '<td>';
-            echo $value["prdest"];
-          echo '</td>';
-
-          echo '<td>';
-            echo '<a href="detalleProducto.php?mode=DSP&codigo='. $value["prdcod"]. '">Ver | </a>';
-            echo '<a href="detalleProducto.php?mode=DSP&codigo='. $value["prdcod"]. '">Actualizar | </a>';
-            echo '<a href="detalleProducto.php?mode=DSP&codigo='. $value["prdcod"]. '">Elimiar | </a>';
-          echo '</td>';
-        echo '</tr>';
-      }
-      ?>
-
-    <table>
+    <div>
+        <form action="listadoProductos.php"
+             method="post">
+                <label for="txtPrdDsc">
+                Descripción del Producto</label>
+                <input type="text"
+                    name="txtPrdDsc"
+                    id="txtPrdDsc"
+                    placeholder="Descripción del Producto"
+                    value="<?php echo $lst_prddsc_f;?>"/>
+                <br/>
+                <label for="cmbPrdEst">Estado</label>
+                <select name="cmbPrdEst" id="cmbPrdEst">
+                    <option value="ACT"
+                    <?php echo ($lst_prdest_f=="ACT")?"selected=selected":"" ?>
+                    >
+                        Activo
+                    </option>
+                    <option value="INA"
+                    <?php echo ($lst_prdest_f=="INA")?"selected=selected":"" ?>>
+                        Inactivo
+                    </option>
+                    <option value="RTR"
+                    <?php echo ($lst_prdest_f=="RTR")?"selected=selected":"" ?>>
+                        Retirado
+                    </option>
+                    <option value="PLN"
+                    <?php echo ($lst_prdest_f=="PLN")?"selected=selected":"" ?>>
+                        Stand By
+                    </option>
+                </select>
+                <br/>
+                <input type="submit"
+                    name="btnFiltrar"
+                    value="Filtrar"
+                    />
+        </form>
+    </div>
+    <div>
+        <h2>Productos</h2>
+        <a href="detalleProducto.php?mode=INS">Ingresar Nuevo Producto</a>
+        <table>
+            <tr>
+                <th>Cod.</th>
+                <th>Descripción</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        <?php
+            foreach($Productos as $producto){
+                echo "<tr>";
+                echo "<td>".$producto["prdcod"]."</td>";
+                echo "<td>".$producto["prddsc"]."</td>";
+                echo "<td>".$producto["ctgcod"]."</td>";
+                echo "<td>".$producto["prdprc"]."</td>";
+                echo "<td>".$producto["prdstk"]."</td>";
+                echo "<td>".$producto["prdest"]."</td>";
+                echo "<td>";
+                echo '<a href="detalleProducto.php?mode=DSP&prdcod= '.$producto["prdcod"]. '"">Ver</a> | ';
+                echo '<a href="detalleProducto.php?mode=UPD&prdcod= '.$producto["prdcod"]. '"">Editar</a> | ';
+                echo '<a href="detalleProducto.php?mode=DEL&prdcod= '.$producto["prdcod"]. '"">ELIMINAR</a> | ';
+                echo "</td></tr>";
+            }
+        ?>
+        </table>
+    </div>
   </body>
 </html>
