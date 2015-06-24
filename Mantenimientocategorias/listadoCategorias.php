@@ -4,7 +4,7 @@
   require_once("libreria.php");
 
   $filtroDescripcion ="";
-  $filtroEstado ="";
+  $filtroEstado ="ACT";
 
   if(isset($_SESSION["filtroDescripcion"])){
     $filtroDescripcion =$_SESSION["filtroDescripcion"];
@@ -71,9 +71,9 @@
           echo '<td>'. $value["ctgdsc"] .'</td>';
           echo '<td>'. $value["ctgest"] .'</td>';
           echo '<td>';
-          echo  '<a href="detalleCategorias.php?mode=VER&ctgcod'. $value["ctgcod"].'">Ver</a> | ';
-          echo  '<a href="detalleCategorias.php?mode=ACT&ctgcod'. $value["ctgcod"].'">Actualizar</a> | ';
-          echo  '<a href="detalleCategorias.php?mode=ELI&ctgcod'. $value["ctgcod"].'">Eliminar</a> | ';
+          echo  '<a href="detalleCategorias.php?mode=VER&ctgcod='. $value["ctgcod"].'">Ver</a> | ';
+          echo  '<a href="detalleCategorias.php?mode=ACT&ctgcod='. $value["ctgcod"].'">Actualizar</a> | ';
+          echo  '<a href="detalleCategorias.php?mode=ELI&ctgcod='. $value["ctgcod"].'">Eliminar</a> | ';
           echo  '</td>';
 
         echo '</tr>';

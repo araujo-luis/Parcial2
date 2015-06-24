@@ -1,8 +1,6 @@
 <?php
 
-$conexion = new mysqli();
-function conectar(){
-  global $conexion;
+  $conexion = new mysqli();
 
   $host ="localhost";
   $user = "root";
@@ -15,17 +13,9 @@ function conectar(){
     echo ($conexion->error);
 
   }
-}
-
-function desconectar(){
-  global $conexion;
-  $conexion->close();
-}
-
 
 function getCategorias($descripcion, $estado){
   global $conexion;
-  conectar();
 
   $descripcion= "%". $conexion->real_escape_string($descripcion)."%";
   $estado= $conexion->real_escape_string($estado);
@@ -42,9 +32,80 @@ function getCategorias($descripcion, $estado){
       $categorias[]= $categoria;
     }
   }
-  desconectar();
-
   return $categorias;
+}
+
+
+function getCategoria($codigo){
+  global $conexion;
+
+  $descripcion= "%". $conexion->real_escape_string($codigo)."%";
+
+
+  $query = "select * from categorias where ctgcod='%s'";
+
+  $query= sprintf($query,$codigo);
+
+  $cursor= $conexion->query($query);
+
+  if($cursor){
+    $categoria= $cursor->fetch_assoc();
+  }
+  return $categoria;
+}
+
+
+function insertarCategoria($descripcion,$estado){
+  global $conexion;
+
+  $descripcion = $conexion->real_escape_string($descripcion);
+  $estado = $conexion->real_escape_string($estado);
+
+  $query = "insert into categorias values (NULL,'%s','%s')";
+
+  $query=sprintf($query,$descripcion,$estado);
+
+  if($conexion->query($query)){
+    return true;
+  }else {
+    return false ;
+  }
+
+}
+
+
+function actualizarCategoria($codigo,$descripcion,$estado){
+  global $conexion;
+  $codigo = $conexion->real_escape_string($codigo);
+  $descripcion = $conexion->real_escape_string($descripcion);
+  $estado = $conexion->real_escape_string($estado);
+
+  $query = "update categorias set ctgdsc='%s', ctgest='%s' where ctgcod='%s'";
+  $query=sprintf($query,$descripcion,$estado,$codigo);
+
+  if($conexion->query($query)){
+    return true;
+  }else {
+    return false ;
+  }
+
+}
+
+ function getLastInsertID(){
+   global $conexion;
+   return $conexion->insert_id;
+ }
+function eliminarCategoria($codigo){
+  global $conexion;
+
+  $query = "delete from categorias where ctgcod='%s'";
+$query=sprintf($query,$codigo);
+
+  if($conexion->query($query)){
+    return true;
+  }else {
+    return false ;
+  }
 
 }
 
